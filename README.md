@@ -13,7 +13,7 @@ cmake .. -DBUILD_PYTHON=ON -DGPU_MODE=CPU_ONLY
 
 #### MMPose Setup
 For mps:
-pip3 install --pre torch --extra-index-url https://download.pytorch.org/whl/nightly/cpu
+pip3 install --pre torch torchvision --extra-index-url https://download.pytorch.org/whl/nightly/cpu
 
 Regular:
 pip3 install torch
