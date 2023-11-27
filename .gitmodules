@@ -3,7 +3,7 @@
 	url = https://github.com/CMU-Perceptual-Computing-Lab/openpose
 [submodule "mmpose"]
 	path = mmpose
-	url = https://github.com/open-mmlab/mmpose.git
+	url = https://github.com/becklabs/mmpose.git
 [submodule "mmcv"]
 	path = mmcv
 	url = https://github.com/open-mmlab/mmcv.git
