@@ -1,16 +1,3 @@
-#### OpenPose Setup
-
-git submodule update --init --recursive --remote
-brew install cmake
-brew install boost
-brew install protobuf
-brew install glog
-brew install opencv
-
-mkdir build
-cd build
-cmake .. -DBUILD_PYTHON=ON -DGPU_MODE=CPU_ONLY
-
 #### MMPose Setup
 For mps:
 pip3 install --pre torch torchvision --extra-index-url https://download.pytorch.org/whl/nightly/cpu
@@ -27,9 +14,12 @@ mim install mmengine
 cd mmcv
 $MMCV_WITH_OPS=1 pip3 install -e .
 
+cd ..
+
 mim install "mmdet>=3.1.0"
 
-mim download mmpose --config td-hm_hrnet-w48_8xb32-210e_coco-256x192  --dest .
+mim download mmpose --config rtmpose-m_8xb256-420e_coco-256x192  --dest checkpoints/mmpose 
+mim download mmpose --config motionbert_dstformer-ft-243frm_8xb32-120e_h36m --dest checkpoints/mmpose
 
 
 

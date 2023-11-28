@@ -4,3 +4,4 @@ env/
 test.py
 .mypy_cache/
 test_mmpose.py
+__pycache__/
