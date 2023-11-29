@@ -4,3 +4,6 @@
 [submodule "mmcv"]
 	path = mmcv
 	url = https://github.com/open-mmlab/mmcv.git
+[submodule "MotionBERT"]
+	path = MotionBERT
+	url = https://github.com/Walter0807/MotionBERT.git
