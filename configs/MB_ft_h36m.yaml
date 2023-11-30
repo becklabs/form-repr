@@ -1,5 +1,5 @@
 # General  
-train_2d: False
+train_2d: True
 no_eval: False
 finetune: True
 partial_train: null
