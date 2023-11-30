@@ -2,16 +2,11 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from pose_estimation import extract_video_keypoints
-from inferencers import inferencer_2d
+# from pose_estimation import extract_video_keypoints
+# from inferencers import inferencer_2d
 
-# with open('../data/poses/All_Data/0.json') as f:
-#     frames = json.load(f)
-
-frames = extract_video_keypoints('../data/video/All_Data/0.mp4', inferencer_2d)
-
-with open('0_2d.json', 'w') as f:
-    json.dump(frames, f)
+with open('../data/poses/All_Data/0.json') as f:
+    frames = json.load(f)
 
 def visualize_video_3d(keypoints, keypoint_scores, keypoint_threshold=0.3):
     skeleton_pairs = [
@@ -108,10 +103,10 @@ def visualize_video_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
         ax.scatter(x, y, c='blue')
 
         # Redraw skeleton lines
-        for pair in skeleton_pairs:
-            xs = [filtered_keypoints[pair[0]][0], filtered_keypoints[pair[1]][0]]
-            ys = [filtered_keypoints[pair[0]][1], filtered_keypoints[pair[1]][1]]
-            ax.plot(xs, ys, c='red')
+        # for pair in skeleton_pairs:
+        #     xs = [filtered_keypoints[pair[0]][0], filtered_keypoints[pair[1]][0]]
+        #     ys = [filtered_keypoints[pair[0]][1], filtered_keypoints[pair[1]][1]]
+        #     ax.plot(xs, ys, c='red')
 
         # Use fixed axis limits
         ax.set_xlim(mid_x - max_range, mid_x + max_range)
@@ -132,8 +127,8 @@ def visualize_video_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
     plt.show()
 
 
-# keypoints_3d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
-keypoints_2d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
+keypoints_3d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
+# keypoints_2d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
 keypoint_scores = [frame['predictions_2d'][0]['keypoint_scores'] for frame in frames]
 
-visualize_video_2d(keypoints_2d, keypoint_scores, keypoint_threshold=0.3)
+visualize_video_3d(keypoints_3d, keypoint_scores, keypoint_threshold=0.3)
