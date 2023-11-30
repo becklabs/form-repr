@@ -4,8 +4,8 @@
 #SBATCH --gres=gpu:v100-sxm2:1
 #SBATCH --time=08:00:00
 #SBATCH --job-name=form_repr
-#SBATCH --mem=16GB
-#SBATCH --cpus-per-task=8
+#SBATCH --mem=32GB
+#SBATCH --cpus-per-task=12
 #SBATCH --ntasks=1
 #SBATCH --mail-user=labash.b@northeastern.edu
 #SBATCH --mail-type=BEGIN
