@@ -2,10 +2,11 @@ import json
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
+
 # from pose_estimation import extract_video_keypoints
 # from inferencers import inferencer_2d
 
-with open('../data/poses/All_Data/0.json') as f:
+with open('../output/perfect4.json') as f:
     frames = json.load(f)
 
 def visualize_video_3d(keypoints, keypoint_scores, keypoint_threshold=0.3):
@@ -36,7 +37,8 @@ def visualize_video_3d(keypoints, keypoint_scores, keypoint_threshold=0.3):
         scores = keypoint_scores[frame_ind]
 
         # Filter keypoints based on the score
-        filtered_keypoints = [kp if scores[i] > keypoint_threshold else (np.nan, np.nan, np.nan) for i, kp in enumerate(keypoints_frame)]
+        filtered_keypoints = [kp if scores[i] > keypoint_threshold else (np.nan, np.nan, np.nan) for i, kp in
+                              enumerate(keypoints_frame)]
         x, y, z = zip(*filtered_keypoints)
 
         # Redraw scatter plot for filtered keypoints
@@ -55,7 +57,7 @@ def visualize_video_3d(keypoints, keypoint_scores, keypoint_threshold=0.3):
         ax.set_zlim(mid_z - max_range, mid_z + max_range)
 
         # Set aspect ratio to be equal
-        ax.set_box_aspect([1,1,1])  # Newer matplotlib versions
+        ax.set_box_aspect([1, 1, 1])  # Newer matplotlib versions
 
         # Set axes labels
         ax.set_xlabel('X')
@@ -96,7 +98,8 @@ def visualize_video_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
         scores = keypoint_scores[frame_ind]
 
         # Filter keypoints based on the score
-        filtered_keypoints = [kp if scores[i] > keypoint_threshold else (np.nan, np.nan) for i, kp in enumerate(keypoints_frame)]
+        filtered_keypoints = [kp if scores[i] > keypoint_threshold else (np.nan, np.nan) for i, kp in
+                              enumerate(keypoints_frame)]
         x, y = zip(*filtered_keypoints)
 
         # Redraw scatter plot for filtered keypoints
@@ -114,10 +117,11 @@ def visualize_video_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
 
         # Set aspect ratio to be equal
         ax.set_aspect('equal', adjustable='box')
-
+        ax.invert_yaxis()
         # Set axes labels
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
+
 
         return [scatter_plot] + lines
 
@@ -127,8 +131,8 @@ def visualize_video_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
     plt.show()
 
 
-keypoints_3d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
-# keypoints_2d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
+# keypoints_3d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
+keypoints_2d = [frame['predictions_2d'][0]['keypoints'] for frame in frames]
 keypoint_scores = [frame['predictions_2d'][0]['keypoint_scores'] for frame in frames]
 
-visualize_video_3d(keypoints_3d, keypoint_scores, keypoint_threshold=0.3)
+visualize_video_2d(keypoints_2d, keypoint_scores, keypoint_threshold=0.3)

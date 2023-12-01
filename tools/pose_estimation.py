@@ -6,17 +6,27 @@ import os
 
 
 def extract_video_keypoints(
-    video_path: str, inferencer: MMPoseInferencer, is_3d: bool = True
+    video_path: str, inferencer: MMPoseInferencer, is_3d: bool = False
 ) -> List[Dict]:
+    
     result_generator = inferencer(video_path, show=False)
     raw_results = [r for r in result_generator]
     results = []
     for frame in raw_results:
         if is_3d:
-            result_2d = frame["predictions_2d"][0]
-            result_3d = frame["predictions"][0]
+            if frame["predictions_2d"]:
+                result_2d = frame["predictions_2d"][0]
+            else:
+                result_2d = []
+            if frame["predictions"]:
+                result_3d = frame["predictions"][0]
+            else:
+                result_3d = []
         else:
-            result_2d = frame["predictions"][0]
+            if frame["predictions"]:
+                result_2d = frame["predictions"][0]
+            else:
+                result_2d = []
             result_3d = []
 
         for subject in result_2d:
@@ -57,7 +67,7 @@ if __name__ == "__main__":
     parser.add_argument("--video_path", type=str, help="path to video file")
     parser.add_argument("--output_path", type=str, help="path to output file")
     parser.add_argument(
-        "--is_3d", type=bool, default=True, help="whether to extract 3d keypoints"
+        "--is_3d", type=bool, default=False, help="whether to extract 3d keypoints"
     )
     parser.add_argument(
         "--overwrite",
