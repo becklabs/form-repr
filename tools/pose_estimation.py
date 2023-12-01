@@ -22,6 +22,14 @@ def extract_video_keypoints(
                 result_3d = frame["predictions"][0]
             else:
                 result_3d = []
+            if frame['predictions_2d']:
+                result_2d = frame['predictions_2d'][0]
+            else:
+                result_2d = []
+            if frame['predictions']:
+                result_3d = frame['predictions'][0]
+            else:
+                result_3d = []
         else:
             if frame["predictions"]:
                 result_2d = frame["predictions"][0]
@@ -76,5 +84,6 @@ if __name__ == "__main__":
         help="whether to overwrite existing output file",
     )
     args = parser.parse_args()
+    print(args)
 
     main(args.video_path, args.output_path, args.is_3d, args.overwrite)
