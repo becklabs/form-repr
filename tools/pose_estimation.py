@@ -9,7 +9,7 @@ def extract_video_keypoints(
     video_path: str, inferencer: MMPoseInferencer, is_3d: bool = False
 ) -> List[Dict]:
     
-    result_generator = inferencer(video_path, show=False)
+    result_generator = inferencer(video_path, show=True)
     raw_results = [r for r in result_generator]
     results = []
     for frame in raw_results:

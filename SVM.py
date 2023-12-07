@@ -6,13 +6,11 @@ from sklearn.model_selection import KFold, StratifiedKFold, cross_val_score
 import os
 
 
-
-
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 
-path_to_npy = '../Untitled/Embeddings/'
+path_to_npy = './data/embed/Embeddings/'
 
 x = []
 y = []
@@ -27,8 +25,12 @@ for file_name in [file for file in os.listdir(path_to_npy) if file.endswith('.np
         y.append("Overstride/Heelstrike")
     x.append(frames)
 
+overstride_frames = np.load('./data/embed/oliver/IMG_5046.npy')
+overstride_frames = overstride_frames.reshape(-1, 17*512)
+overstride_frames = np.mean(overstride_frames, axis=0)
 
 
+np.random.seed(69)
 x = np.asarray(x)
 y = np.asarray(y)
 print(x.shape)

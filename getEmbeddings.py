@@ -15,13 +15,16 @@ from MotionBERT.lib.model.DSTformer import DSTformer
 from MotionBERT.lib.utils.utils_data import flip_data
 from src.data.dataset_wild import WildDetDataset
 
+CHECKPOINT_PATH = 'checkpoints/pose3d/latest_epoch.bin'
+INPUT_PATH = 'data/poses/oliver/'
+OUTPUT_PATH = 'data/embed/oliver/'
 
-path_to_json = '../../Output/'
-
+if not os.path.exists(OUTPUT_PATH):
+    os.makedirs(OUTPUT_PATH)
 
 
 model_backbone = DSTformer(maxlen=  243, dim_feat= 256, mlp_ratio= 4,depth= 5,dim_rep= 512,num_heads= 8,att_fuse= True)
-checkpoint = torch.load('../..//checkpoint/latest_epoch.bin', map_location=lambda storage, loc: storage)
+checkpoint = torch.load(CHECKPOINT_PATH, map_location=lambda storage, loc: storage)
 if not torch.cuda.is_available():
   checkpoint['model_pos'] = {key.replace("module.", ""): value for key, value in checkpoint['model_pos'].items()}
 model_backbone.load_state_dict(checkpoint['model_pos'], strict=True)
@@ -39,8 +42,8 @@ testloader_params = {
 }
 
 def main():
-  for file_name in [file for file in os.listdir(path_to_json) if file.endswith('.json')]:
-      wild_dataset = WildDetDataset(path_to_json + file_name, clip_len=243, scale_range=[1, 1], focus=None)
+  for file_name in [file for file in os.listdir(INPUT_PATH) if file.endswith('.json')]:
+      wild_dataset = WildDetDataset(INPUT_PATH + file_name, clip_len=243, scale_range=[1, 1], focus=None)
 
       test_loader = DataLoader(wild_dataset, **testloader_params)
 
@@ -63,7 +66,7 @@ def main():
       results_all = np.hstack(results_all)
       results_all = np.concatenate(results_all)
       print(results_all)
-      np.save('../../Embeddings/' + file_name.replace('.json', '') + '.npy', results_all)
+      np.save(OUTPUT_PATH + file_name.replace('.json', '') + '.npy', results_all)
 
 
 

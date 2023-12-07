@@ -127,7 +127,7 @@ def track_people_across_frames(keypoints_2d, keypoints_scores):
 
 #     return tracks
 
-print(track_people_across_frames(keypoints_2d, keypoint_scores))
+# print(track_people_across_frames(keypoints_2d, keypoint_scores))
 
 def rearrange_keypoints(keypoints_2d, tracks):
     rearranged_keypoints = []

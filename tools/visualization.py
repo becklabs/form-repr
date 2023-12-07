@@ -8,7 +8,10 @@ from fix_tracks import track_people_across_frames, rearrange_keypoints
 
 # frames = extract_video_keypoints('../data/videos/Pro_Runners/Usain_B.mp4', inferencer_2d, is_3d=False)
 
-with open('../data/poses/Pro_Runners/Katelyn_Tuohy.json') as f:
+# with open('../data/poses/Pro_Runners/Katelyn_Tuohy.json') as f:
+#     frames = json.load(f)
+
+with open('../data/poses/All_Data/0.json') as f:
     frames = json.load(f)
 
 def visualize_video_3d(keypoints, keypoint_scores, keypoint_threshold=0.3):
@@ -104,15 +107,16 @@ def visualize_video_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
         print(y)
 
         # Redraw scatter plot for filtered keypoints
-        ax.scatter(x, -y, c='blue')
+        ax.scatter(x, y, c='blue')
 
         # Use fixed axis limits
         ax.set_xlim(mid_x - max_range, mid_x + max_range)
-        ax.set_ylim(-1*(mid_y - max_range), -1*(mid_y + max_range))
+        ax.set_ylim((mid_y - max_range), (mid_y + max_range))
 
         # Set aspect ratio to be equal
         ax.set_aspect('equal', adjustable='box')
         ax.invert_yaxis()
+        ax.invert_xaxis()
         # Set axes labels
         ax.set_xlabel('X')
         ax.set_ylabel('Y')
@@ -155,7 +159,6 @@ def visualize_multiple_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
         scores = keypoint_scores[frame_ind]
 
         for i, (track_keypoints, track_scores) in enumerate(zip(keypoints_frame, scores)):
-            print(i)
             # Filter keypoints based on the score
             filtered_keypoints = [kp if track_scores[i] > keypoint_threshold else (np.nan, np.nan) for i, kp in enumerate(track_keypoints)]
             x, y = zip(*filtered_keypoints)
@@ -189,14 +192,14 @@ def visualize_multiple_2d(keypoints, keypoint_scores, keypoint_threshold=0.3):
 
 
 # keypoints_3d = [frame['predictions_3d'][0]['keypoints'] for frame in frames]
-keypoints_2d = [[f['keypoints'] for f in frame['predictions_2d']] for frame in frames]
-keypoint_scores = [[f['keypoint_scores'] for f in frame['predictions_2d']] for frame in frames]
+# keypoints_2d = [[f['keypoints'] for f in frame['predictions_2d']] for frame in frames]
+# keypoint_scores = [[f['keypoint_scores'] for f in frame['predictions_2d']] for frame in frames]
 
-# keypoints_2d = [frame['predictions_2d'][0]['keypoints'] for frame in frames]
-# keypoint_scores = [frame['predictions_2d'][0]['keypoint_scores'] for frame in frames]
+keypoints_2d = [frame['predictions_2d'][0]['keypoints'] for frame in frames]
+keypoint_scores = [frame['predictions_2d'][0]['keypoint_scores'] for frame in frames]
 
 # Apply the function to your data
-tracks = track_people_across_frames(keypoints_2d, keypoint_scores)
+# tracks = track_people_across_frames(keypoints_2d, keypoint_scores)
 
 # person_0 = tracks[0]
 # person_0_keypoints = []
@@ -208,8 +211,9 @@ tracks = track_people_across_frames(keypoints_2d, keypoint_scores)
     
 
 # # Rearrange the keypoints according to the tracks
-rearranged_keypoints = rearrange_keypoints(keypoints_2d, tracks)
+# rearranged_keypoints = rearrange_keypoints(keypoints_2d, tracks)
 # rearranged_keypoint_scores = rearrange_keypoints(keypoint_scores, tracks)
 
-visualize_multiple_2d(rearranged_keypoints, keypoint_scores, keypoint_threshold=0.3)
-# visualize_video_2d(keypoints_2d, keypoint_scores, keypoint_threshold=0.3)
+# visualize_multiple_2d(keypoints_2d, keypoint_scores, keypoint_threshold=0.3)
+# visualize_video_3d(keypoints_3d, keypoint_scores, keypoint_threshold=0.3)
+visualize_video_2d(keypoints_2d, keypoint_scores, keypoint_threshold=0.3)
