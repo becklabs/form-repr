@@ -1,4 +1,4 @@
-# Setup Instructions
+## Setup Instructions
 
 ### Initialize Submodules
 
@@ -85,3 +85,42 @@ Run the conversion script for the Human3.6m dataset:
 ```bash
 cd tools && python3 convert_h36m.py && cd ..
 ```
+
+## Scripts
+
+### Pose Estimation
+
+To extract keypoints from a video using `pose_estimation.py`, run the following command:
+
+```sh
+python tools/pose_estimation.py --video_path <path_to_video> --output_path <path_to_output_json> --is_3d <True_or_False> --overwrite <True_or_False>
+```
+
+- `--video_path`: Path to the input video file.
+- `--output_path`: Path to save the extracted keypoints in JSON format.
+- `--is_3d`: Set to `True` to extract 3D keypoints, `False` for 2D keypoints.
+- `--overwrite`: Set to `True` to overwrite existing output files, `False` otherwise.
+
+### Calculate Embeddings
+
+To calculate embeddings for a 2D pose sequence using `get_embedding.py`, use the following command:
+
+```sh
+python tools/get_embedding.py --checkpoint <path_to_model_checkpoint> --input_path <path_to_json_files> --output_path <path_to_save_embeddings>
+```
+
+- `--checkpoint`: Path to the model checkpoint file.
+- `--input_path`: Path to the folder containing JSON files with 2D pose sequences.
+- `--output_path`: Path to save the resulting embeddings as `.npy` files.
+
+### Fine-Tuning MotionBERT
+
+To fine-tune MotionBERT on the running dataset using `train.py`, execute the following command:
+
+```sh
+python train.py --config <path_to_config_yaml> --checkpoint <path_to_checkpoint_dir> --pretrained <path_to_pretrained_checkpoint> 
+```
+
+- `--config`: Path to the YAML configuration file.
+- `--checkpoint`: Directory to save checkpoints.
+- `--pretrained`: Directory containing the pretrained checkpoint.
