@@ -22,6 +22,18 @@ inferencer_2d = Pose2DInferencer(
     device=device,
 )
 
+inferencer_2d_yolo = Pose2DInferencer(
+    model=os.path.join(
+        ROOT_DIR,
+        "mmpose/configs/body_2d_keypoint/yoloxpose/coco/yoloxpose_s_8xb32-300e_coco-640.py"
+    ),
+    weights=os.path.join(
+        ROOT_DIR,
+        "checkpoints/mmpose/rtmpose-m_simcc-coco_pt-aic-coco_420e-256x192-d8dd5ca4_20230127.pth",
+    ),
+    device=device,
+)
+
 # Equivalent to MMPoseInferencer(pose3d='human3d', device='cpu')
 inferencer_3d = Pose3DInferencer(
     pose2d_model=os.path.join(
