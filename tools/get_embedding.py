@@ -5,7 +5,9 @@ import argparse
 
 current_dir = os.path.dirname(__file__)
 submodule_lib_path = os.path.join(current_dir, "../MotionBERT")
+src_lib_module = os.path.join(current_dir, "../src")
 sys.path.append(submodule_lib_path)
+sys.path.append(src_lib_module)
 from tqdm import tqdm
 from torch.utils.data import DataLoader
 
